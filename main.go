@@ -9,7 +9,17 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/joho/godotenv"
 )
+
+func init() {
+	if err := godotenv.Load(); err != nil {
+		log.Printf("Unable to load env values: %v\n", err)
+		panic(err)
+	} else {
+		log.Println("Loaded env values successfully")
+	}
+}
 
 func main() {
 	fmt.Println("Hello World")
