@@ -2,6 +2,9 @@ package main
 
 import (
 	"fmt"
+	"log"
+
+	"github.com/mofodox/TILNotes/database"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -17,6 +20,14 @@ func main() {
 	app.Use(cors.New(cors.Config{
 		AllowCredentials: true,
 	}))
+
+	// Create the connection to our database
+	if err := database.Connect(); err != nil {
+		log.Printf("Unable to connect the database: %v\n", err.Error())
+		panic(err)
+	} else {
+		log.Println("Successfully connected to the database")
+	}
 
 	app.Get("/", hello)
 
