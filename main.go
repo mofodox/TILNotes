@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/mofodox/TILNotes/database"
+	"github.com/mofodox/TILNotes/routes"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -40,6 +41,7 @@ func main() {
 	}
 
 	app.Get("/", hello)
+	routes.SetupRoutes(app)
 
 	app.Listen(":1337")
 }
