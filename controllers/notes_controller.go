@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"fmt"
+	"log"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -32,6 +34,8 @@ func AddNote(ctx *fiber.Ctx) error {
 
 	database.DB.Create(&note)
 
+	log.Println(note.ID)
+
 	return ctx.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"message": "Note successfully created",
 		"data": note,
@@ -45,7 +49,7 @@ func GetNote(ctx *fiber.Ctx) error {
 	noteId, err := strconv.ParseUint(ctx.Params("id"), 10, 64)
 	if err != nil {
 		return ctx.Status(442).JSON(fiber.Map{
-			"message": "Unable to process JSON request",
+			"message": "Error converting the noteId to int64",
 		})
 	}
 
@@ -58,6 +62,28 @@ func GetNote(ctx *fiber.Ctx) error {
 
 	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "success",
+		"data": note,
+	})
+}
+
+// PUT - update a note
+func EditNote(ctx *fiber.Ctx) error {
+	noteId, _ := strconv.ParseUint(ctx.Params("id"), 10, 64)
+
+	note := models.Note{
+		ID: noteId,
+	}
+
+	if err := ctx.BodyParser(&note); err != nil {
+		return ctx.Status(442).JSON(fiber.Map{
+			"message": "Unable to process JSON request",
+		})
+	}
+
+	database.DB.Model(&note).Updates(note)
+
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": fmt.Sprintf("Note ID %v has been updated", noteId),
 		"data": note,
 	})
 }
@@ -85,6 +111,6 @@ func DeleteNote(ctx *fiber.Ctx) error {
 	}
 
 	return ctx.Status(fiber.StatusNoContent).JSON(fiber.Map{
-		"message": "Note successfully deleted",
+		"message": fmt.Sprintf("Note ID %v has been deleted", noteId),
 	})
 }
