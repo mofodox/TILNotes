@@ -10,4 +10,5 @@ func SetupRoutes(app *fiber.App) {
 
 	noteApiV1.Get("/", controllers.GetAllNotes)
 	noteApiV1.Post("/", controllers.AddNote)
+	noteApiV1.Get("/:id", controllers.GetNote)
 }
