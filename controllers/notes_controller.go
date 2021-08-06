@@ -10,7 +10,7 @@ import (
 	"github.com/mofodox/TILNotes/models"
 )
 
-// GET – retrieve all notes
+// GetAllNotes GET – retrieve all notes
 func GetAllNotes(ctx *fiber.Ctx) error {
 	var notes []models.Note
 
@@ -22,7 +22,7 @@ func GetAllNotes(ctx *fiber.Ctx) error {
 	})
 }
 
-// POST – add a note
+// AddNote POST – add a note
 func AddNote(ctx *fiber.Ctx) error {
 	var note models.Note
 
@@ -42,7 +42,7 @@ func AddNote(ctx *fiber.Ctx) error {
 	})
 }
 
-// GET - retrieve a note
+// GetNote GET - retrieve a note
 func GetNote(ctx *fiber.Ctx) error {
 	var note models.Note
 
@@ -66,7 +66,7 @@ func GetNote(ctx *fiber.Ctx) error {
 	})
 }
 
-// PUT - update a note
+// EditNote PUT - update a note
 func EditNote(ctx *fiber.Ctx) error {
 	noteId, _ := strconv.ParseUint(ctx.Params("id"), 10, 64)
 
@@ -88,7 +88,7 @@ func EditNote(ctx *fiber.Ctx) error {
 	})
 }
 
-// DELETE - remove a single note based on note id
+// DeleteNote DELETE - remove a single note based on note id
 func DeleteNote(ctx *fiber.Ctx) error {
 	var note models.Note
 
