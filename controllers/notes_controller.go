@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"fmt"
-	"log"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -34,7 +33,14 @@ func AddNote(ctx *fiber.Ctx) error {
 
 	database.DB.Create(&note)
 
-	log.Println(note.ID)
+	if note.ID != 0 {
+		err := database.DB.Model(&models.Category{}).Where("id = ?", note.CategoryId).Take(&note.Category).Error
+		if err != nil {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Create note: server error",
+			})
+		}
+	}
 
 	return ctx.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"message": "Note successfully created",
