@@ -14,7 +14,7 @@ import (
 func GetAllNotes(ctx *fiber.Ctx) error {
 	var notes []models.Note
 
-	database.DB.Model(&models.Note{}).Find(&notes)
+	database.DB.Model(&models.Note{}).Preload("Category").Find(&notes)
 
 	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "success",
@@ -54,7 +54,7 @@ func GetNote(ctx *fiber.Ctx) error {
 	}
 
 	// If the result (noteId != note.ID) does not exist, return server error code and message
-	if result := database.DB.Model(&models.Note{}).Where("id = ?", noteId).First(&note); result.Error != nil {
+	if result := database.DB.Model(&models.Note{}).Preload("Category").Where("id = ?", noteId).First(&note); result.Error != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Unable to retrieve the specified noteId due to server error",
 		})
