@@ -23,8 +23,8 @@ func Connect() error {
 
 	DB = connection
 
-	connection.Migrator().DropTable(&models.Note{})
-	connection.AutoMigrate(&models.Note{})
+	connection.Migrator().DropTable(&models.Note{}, &models.Category{})
+	connection.AutoMigrate(&models.Note{}, &models.Category{})
 
 	return nil
 }
