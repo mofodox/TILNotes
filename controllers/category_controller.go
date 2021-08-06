@@ -21,7 +21,7 @@ func GetAllCategories(ctx *fiber.Ctx) error {
 	})
 }
 
-// POST – add a note
+// POST – add a category
 func AddCategory(ctx *fiber.Ctx) error {
 	var category models.Category
 
@@ -39,7 +39,7 @@ func AddCategory(ctx *fiber.Ctx) error {
 	})
 }
 
-// GET - retrieve a note
+// GET - retrieve a category
 func GetCategory(ctx *fiber.Ctx) error {
 	var category models.Category
 
@@ -50,7 +50,7 @@ func GetCategory(ctx *fiber.Ctx) error {
 		})
 	}
 
-	// If the result (noteId != note.ID) does not exist, return server error code and message
+	// If the result (categoryId != category.ID) does not exist, return server error code and message
 	if result := database.DB.Model(&models.Category{}).Where("id = ?", categoryId).First(&category); result.Error != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Unable to retrieve the specified noteId due to server error",
@@ -63,7 +63,7 @@ func GetCategory(ctx *fiber.Ctx) error {
 	})
 }
 
-// PUT - update a note
+// PUT - update a category
 func EditCategory(ctx *fiber.Ctx) error {
 	categoryId, _ := strconv.ParseUint(ctx.Params("id"), 10, 64)
 
@@ -85,7 +85,7 @@ func EditCategory(ctx *fiber.Ctx) error {
 	})
 }
 
-// DELETE - remove a single note based on note id
+// DELETE - remove a single category based on category id
 func DeleteCategory(ctx *fiber.Ctx) error {
 	var category models.Category
 
@@ -96,9 +96,9 @@ func DeleteCategory(ctx *fiber.Ctx) error {
 		})
 	}
 
-	// Get the note to delete from our database
+	// Get the category to delete from our database
 	db := database.DB.Model(&models.Category{}).Where("id = ?", categoryId).Find(&category)
-	// Delete the note from our database
+	// Delete the category from our database
 	db.Delete(&category)
 
 	if db.Error != nil {
