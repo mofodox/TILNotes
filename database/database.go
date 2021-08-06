@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-// Global DB pointer
+// DB Global DB pointer
 var DB *gorm.DB
 
 func Connect() error {
@@ -23,8 +23,8 @@ func Connect() error {
 
 	DB = connection
 
-	connection.Migrator().DropTable(&models.Note{}, &models.Category{})
-	connection.AutoMigrate(&models.Note{}, &models.Category{})
+	_ = connection.Migrator().DropTable(&models.Note{}, &models.Category{}, &models.User{})
+	_ = connection.AutoMigrate(&models.Note{}, &models.Category{}, &models.User{})
 
 	return nil
 }
