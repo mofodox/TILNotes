@@ -10,6 +10,7 @@ type Note struct {
 	Content string `json:"content"`
 	CategoryId uint `json:"category_id"`
 	Category Category `gorm:"foreignKey:CategoryId" json:"category"`
+	UserID uint `json:"user_id"`
 	CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }
