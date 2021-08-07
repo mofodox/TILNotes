@@ -32,6 +32,9 @@ __*Make sure you have Go and PostgreSQL installed on your local machine.__
 
 ### Authentication
 
+JWT will be created when the user login, and the jwt token is saved in cookie. If you look in the `router` file,
+we created a fiber middleware `middlewares.AuthRequired` to handle the authorization on the endpoints.
+
 - POST `/api/v1/users/auth/register`: Register a user
 
   ```
@@ -130,6 +133,8 @@ __*Make sure you have Go and PostgreSQL installed on your local machine.__
   -H 'Accept: */*' \
   -H 'User-Agent: Thunder Client (https://www.thunderclient.io)'
   ```
+  
+---
 
 ### Categories
 
