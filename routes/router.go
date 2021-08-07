@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/mofodox/TILNotes/controllers"
+	"github.com/mofodox/TILNotes/middlewares"
 )
 
 func SetupRoutes(app *fiber.App) {
@@ -10,8 +11,13 @@ func SetupRoutes(app *fiber.App) {
 	categoryApiV1 := app.Group("/api/v1/categories")
 	userAuthApiV1 := app.Group("/api/v1/users/auth")
 
+	// Public endpoint
 	userAuthApiV1.Post("/register", controllers.Register)
 	userAuthApiV1.Post("/login", controllers.Login)
+
+	app.Use(middlewares.AuthRequired)
+
+	// Needs to be authorised endpoints
 	userAuthApiV1.Get("/current_user", controllers.CurrentUser)
 	userAuthApiV1.Post("/logout", controllers.Logout)
 
