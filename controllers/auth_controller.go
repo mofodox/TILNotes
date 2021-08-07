@@ -3,11 +3,10 @@ package controllers
 import (
 	"fmt"
 	"github.com/gofiber/fiber/v2"
-	"github.com/golang-jwt/jwt"
 	"github.com/mofodox/TILNotes/database"
 	"github.com/mofodox/TILNotes/models"
+	"github.com/mofodox/TILNotes/util"
 	"golang.org/x/crypto/bcrypt"
-	"os"
 	"strconv"
 	"time"
 )
@@ -71,12 +70,7 @@ func Login(ctx *fiber.Ctx) error {
 		})
 	}
 
-	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
-		Issuer:    strconv.Itoa(int(user.ID)),
-		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
-	})
-
-	token, err := claims.SignedString([]byte(os.Getenv("JWTSecret")))
+	token, err := util.GenerateJwt(strconv.Itoa(int(user.ID)))
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Unable to create token due to server error",
@@ -93,8 +87,9 @@ func Login(ctx *fiber.Ctx) error {
 	ctx.Cookie(&cookie)
 
 	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
-		"message":   "Success",
-		"data":      user,
+		"message": "Success",
+		"jwt-token": token,
+		"data": user,
 	})
 }
 
@@ -102,23 +97,15 @@ func Login(ctx *fiber.Ctx) error {
 func CurrentUser(ctx *fiber.Ctx) error {
 	cookie := ctx.Cookies("jwt")
 
-	token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte(os.Getenv("JWTSecret")), nil
-	})
-	if err != nil || !token.Valid {
-		return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "Unauthorized",
-		})
-	}
-
-	claims := token.Claims.(*jwt.StandardClaims)
+	userId, _ := util.ParseJwt(cookie)
 
 	var user models.User
 
-	database.DB.Where("id = ?", claims.Issuer).First(&user)
+	database.DB.Preload("Notes.Category").Preload("Notes").Where("id = ?", userId).First(&user)
 
 	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "Success",
+		"jwt-token": cookie,
 		"data": user,
 	})
 }
