@@ -43,7 +43,11 @@ func main() {
 	app.Get("/", hello)
 	routes.SetupRoutes(app)
 
-	app.Listen(":1337")
+	err := app.Listen(":1337")
+	if err != nil {
+		log.Println("Unable to start server on port :1337")
+		panic(err)
+	}
 }
 
 func hello(c *fiber.Ctx) error {
