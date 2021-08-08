@@ -16,7 +16,7 @@ __*Make sure you have Go and PostgreSQL installed on your local machine.__
 
 - Clone the project
 - Use `go mod tidy` via the terminal to make sure you have the dependencies (you must be in the project root folder)
-- Create `.env` file in the root folder with this following:
+- Rename the `.env.sample` to `.env` in the root folder with this following:
   ```
   DBHost=<insert_postgres_hostname> – defaults to: 127.0.0.1
   DBUser=<insert_postgres_username> - defaults to: postgres
