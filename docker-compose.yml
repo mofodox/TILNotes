@@ -1,0 +1,25 @@
+version: '3'
+services:
+  app:
+    image: tilnotesapi-server:latest
+    container_name: tilnotesapi-server
+    ports:
+      - 8080:1337
+#    volumes:
+#      - api:/usr/src/app/
+    depends_on:
+      - tilnotes-pg-db
+
+
+  tilnotes-pg-db:
+    image: postgres:latest
+    container_name: tilnotesapi-server-db
+    environment:
+      - POSTGRES_USER=${DBUser}
+      - POSTGRES_PASSWORD=${DBPassword}
+      - POSTGRES_DB=${DBName}
+    volumes:
+      - database_postgres:/var/lib/postgresql/data
+
+volumes:
+  database_postgres:
