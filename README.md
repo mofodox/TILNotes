@@ -43,6 +43,12 @@ __*Make sure you have Go and Docker installed on your host machine.__
   - via https: `git clone https://github.com/mofodox/TILNotes.git`
 - Build the custom image: `docker build -t tilnotesapi-server .`
 - After the image has been successfully built: `docker-compose -up`
+- Make sure that you have exported the env values in your ~/.zshrc or ~/.bashrc depends on your environment too.
+  ```
+  export DBUser=<insert_postgres_username> - defaults to: postgres
+  export DBPassword=<insert_postgres_password> - defaults to: password (first time creation)
+  export DBName=<insert_database_name>
+  ```
 - To test the server is working, visit `http:localhost:8080` and you can see a string `Hello World` is sent.
 
 You can play around with TILNotesAPI with a REST API client such as POSTMAN or whichever you prefer.
