@@ -41,7 +41,7 @@ __*Make sure you have Go and Docker installed on your host machine.__
 - Clone the project
   - via ssh: `git clone git@github.com:mofodox/TILNotes.git`
   - via https: `git clone https://github.com/mofodox/TILNotes.git`
-- Build the custom image: `docker build -t <any_name_you_want> .`
+- Build the custom image: `docker build -t tilnotesapi-server .`
 - After the image has been successfully built: `docker-compose -up`
 - To test the server is working, visit `http:localhost:8080` and you can see a string `Hello World` is sent.
 
