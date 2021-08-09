@@ -9,6 +9,7 @@ TILNotes stands for Today I Learnt Notes. This is a note taking app of what you 
 - GORM (ORM)
 - PostgreSQL (DB)
 - JWT (Authentication)
+- Docker
 
 ## How to Get Started
 
