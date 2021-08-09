@@ -12,10 +12,14 @@ TILNotes stands for Today I Learnt Notes. This is a note taking app of what you 
 
 ## How to Get Started
 
-__*Make sure you have Go and PostgreSQL installed on your local machine.__
+### Run on localhost:
+
+__*Make sure you have Go and PostgreSQL installed on your host machine.__
 
 - Clone the project
-- Use `go mod tidy` via the terminal to make sure you have the dependencies (you must be in the project root folder)
+  - via ssh: `git clone git@github.com:mofodox/TILNotes.git`
+  - via https: `git clone https://github.com/mofodox/TILNotes.git`
+- Use `go mod download` via the terminal to make sure you have the dependencies (you must be in the project root folder)
 - Rename the `.env.sample` to `.env` in the root folder with this following:
   ```
   DBHost=<insert_postgres_hostname> – defaults to: 127.0.0.1
@@ -27,6 +31,24 @@ __*Make sure you have Go and PostgreSQL installed on your local machine.__
   JWTSecret=tilnotesapi
   ```
 - Once you have the dependencies installed, to run the API server: type `go run main.go`
+- To test the server is working, visit `http://localhost:1337/` and you can see a string `Hello World` is sent.
+
+### Run on Docker Container:
+
+__*Make sure you have Go and Docker installed on your host machine.__
+
+- Clone the project
+  - via ssh: `git clone git@github.com:mofodox/TILNotes.git`
+  - via https: `git clone https://github.com/mofodox/TILNotes.git`
+- Build the custom image: `docker build -t <any_name_you_want> .`
+- After the image has been successfully built: `docker-compose -up`
+- To test the server is working, visit `http:localhost:8080` and you can see a string `Hello World` is sent.
+
+You can play around with TILNotesAPI with a REST API client such as POSTMAN or whichever you prefer.
+
+Have fun!
+
+---
 
 ## Endpoints
 
@@ -185,3 +207,31 @@ we created a fiber middleware `middlewares.AuthRequired` to handle the authoriza
   -H 'Accept: */*' \
   -H 'User-Agent: Thunder Client (https://www.thunderclient.io)'
   ```
+
+---
+
+## Contributing
+
+TILNotesAPI is an open source project. Please feel free to contribute and when contributing, please follow the Code of Conduct.
+
+### Issues
+
+Feel free to submit issues and enhancement requests.
+
+### How to Get Started
+
+In general we follow the "fork-and-pull" Git workflow.
+
+1. Fork the repo on GitHub 
+2. Clone the project to your own machine
+3. Commit changes to your own branch
+4. Push your work back up to your fork
+5. Submit a Pull request so that we can review your changes
+
+NOTE: Be sure to merge the latest from "main" branch before making a pull request.
+
+---
+
+## Contributors
+
+- [Khairul Akmal](http://github.com/mofodox)
